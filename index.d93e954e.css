@@ -1,0 +1,2 @@
+@keyframes typing{0%{width:0}to{width:100%}}.animate-writing{white-space:nowrap;border-right:.15em solid #fff;animation:4s steps(35,end) infinite alternate typing;display:inline-block;overflow:hidden}@keyframes blink{50%{opacity:0}}.animate-blink{animation:1s infinite blink;display:inline-block}html,body{cursor:none}.cursor{pointer-events:none;z-index:9999;background-color:#0000;border:none;justify-content:center;align-items:center;width:30px;height:30px;font-size:30px;display:flex;position:fixed}
+/*# sourceMappingURL=index.d93e954e.css.map */
