@@ -1,0 +1,21 @@
+/* Cursor.css */
+html,
+body {
+    cursor: none;
+    /* Hide the real cursor */
+}
+
+.cursor {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    background-color: transparent;
+    border: none;
+    pointer-events: none;
+    z-index: 9999;
+    /* Ensure it's above other elements */
+}

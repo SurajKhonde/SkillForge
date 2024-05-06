@@ -1,0 +1,28 @@
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+.animate-writing {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 0.15em solid white;
+    /* The typewriter cursor */
+    white-space: nowrap;
+    animation: typing 4s steps(35, end) infinite alternate;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  display: inline-block;
+  animation: blink 1s infinite;
+}
