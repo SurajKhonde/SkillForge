@@ -22,7 +22,7 @@ export default function Navbar() {
                 onClick={toggleTheme}
                 className="dark:bg-white bg-dark-subtle p-1 rounded sm:text-2xl text-lg"
               >
-                <BsFillSunFill className="text-secondary" size={24} />
+                <BsFillSunFill className="text-secondary" size={24} /> 
               </button>
             </li>
             <li>

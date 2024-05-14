@@ -66,8 +66,6 @@ function TaskSheet({ task }) {
 }
 const TaskProfile = ({ profile }) => {
   const acceptedNameLength = 15;
-console.log(profile)
-
   const getName = (name) => {
     if (name.length <= acceptedNameLength) return name;
 

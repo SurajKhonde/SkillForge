@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Assignment } from './Assignment';
-import Testprep from './Testprep';
+// import Testprep from './Testprep';
+import TestGenrate from "./TestGenrate"
 
 const PracticeGround = () => {
   // State to manage the active button
@@ -35,7 +36,7 @@ const PracticeGround = () => {
       </button>
     </div>
       <div>
-        { activeButton==='Test'? <Testprep/>:<Assignment/>}
+        { activeButton==='Test'? <TestGenrate/>:<Assignment/>}
       </div>
       </> 
   );

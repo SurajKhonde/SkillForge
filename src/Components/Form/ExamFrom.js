@@ -21,6 +21,7 @@ export default function ExamSetForm({
   const [QuestionData, setQuestionData] = useState(false);
   const { updateNotification } = useNotification();
 
+
   const handleChange = ({ target }) => {
     const { value, name } = target;
     setExam({ ...exam, [name]: value });
@@ -41,12 +42,12 @@ const handleSubmit = (e) => {
   e.preventDefault();
   const finalExamSetup = { ...exam, paperSet: (exam.paperSet) };
   const { paperSet } = exam;
-  finalExamSetup.paperSet=JSON.stringify(paperSet)
+    const Data = finalExamSetup.paperSet= JSON.stringify(paperSet)
 
-    setExam(finalExamSetup)
+  setExam(Data)
 
   onSubmit(exam);
-};
+  };
   const { subject } = exam;
   return (
     <>
@@ -60,7 +61,7 @@ const handleSubmit = (e) => {
         onChange={handleChange}
         name="subject"
       />
-      <QuestionSelector badge={exam.paperSet.length} onClick={displayQuestionModal} />  
+      <QuestionSelector badge={exam.paperSet?.length} onClick={displayQuestionModal} />  
         </div>
     <button
       className="h-8 ml-[8rem] w-24 bg-primary text-white dark:bg-white dark:text-primary hover:opacity-80 transition rounded flex items-center justify-center"

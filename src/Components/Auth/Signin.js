@@ -59,7 +59,7 @@ export default function Signin() {
             value={userInfo.email}
             onChange={handleChange}
             label="Email"
-            placeholder="john@email.com"
+            placeholder="SurajDev@.com"
             name="email"
           />
           <FormInput

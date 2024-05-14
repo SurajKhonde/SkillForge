@@ -8,7 +8,6 @@ const defaultQuestionset = {
   question: "",
   answer: [],
   trueans: ""
-
 };
 
 export default function QuestionSet({ onSubmit, visible, onClose, busy, btnTitle }) {
@@ -34,7 +33,10 @@ export default function QuestionSet({ onSubmit, visible, onClose, busy, btnTitle
 
   const handleChange = ({ target }) => {
     const { value, name } = target;
-    setQuestionSet({ ...QuestionSet, [name]: value });
+    setQuestionSet(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -53,8 +55,8 @@ export default function QuestionSet({ onSubmit, visible, onClose, busy, btnTitle
     newList.splice(index, 1);
     setList(newList);
   };
-   console.log(QuestionSet)
-  const { question,trueans} = QuestionSet;
+
+  const { question, trueans } = QuestionSet;
 
   if (!visible) return null;
 
@@ -92,22 +94,22 @@ export default function QuestionSet({ onSubmit, visible, onClose, busy, btnTitle
             </button>
           </div>
           <div>
-            <div>
-              <Label htmlFor="title" className="dark:text-black mb-2">Question</Label>
-          <input
-            id="trueans"
-            value={trueans}
-            onChange={handleChange}
-            name="trueans"
-            type="text"
-            className={
-              commonInputClasses + " border-b-2 font-bold text-blue-800 text-base"
-            }
-            placeholder="Add your Question"
-          />
+            <div className="mt-[2rem]">
+              <Label htmlFor="title" className="dark:text-black mb-2">TrueAnswer</Label>
+              <input
+                id="trueans"
+                value={trueans}
+                onChange={handleChange}
+                name="trueans"
+                type="text"
+                className={
+                  commonInputClasses + " border-b-2 font-bold text-blue-800 text-base"
+                }
+                placeholder="Please assign Answer"
+              />
+            </div>
           </div>
-          </div>
-                    <button
+          <button
             className="h-8 w-24 bg-primary text-white my-2 dark:bg-white dark:text-primary hover:opacity-80 transition rounded flex items-center justify-center"
             type="submit"
           >

@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes,Route } from "react-router-dom";
 import { useAuth } from './Hooks/index';
 import LandingPage from './Components/Commonpages/LandingPage';
-import Signup from './Components/Auth/Signup';
+const Signup =lazy(()=>import( './Components/Auth/Signup'));
 import Signin from './Components/Auth/Signin';
-import EmailVerification from './Components/Auth/EmailVerification';
-import ForgetPassword from './Components/Auth/ForgotPassword';
-import ConfirmPassword from './Components/Auth/ConfirmPassword';
+const EmailVerification=lazy(()=> import ('./Components/Auth/EmailVerification'));
+const ForgetPassword =lazy(()=>import('./Components/Auth/ForgotPassword'));
+const ConfirmPassword =lazy(()=> import('./Components/Auth/ConfirmPassword'));
 import NotFound from './CommonComponents/NotFound';
-import Navbar from './Components/Commonpages/NavBar';
+import Navbar from './Components/Commonpages/Navbar';
 import Cursor from './Components/Commonpages/DynamicCursor';
 import AdminNavigator from './Navigator/AdminNavigator';
 import DeveloperNavigator from './Navigator/Newbie';
@@ -27,10 +27,10 @@ const App = () => {
           <Routes>
               <Route path="/" element={<LandingPage />} />             
               <Route path="/auth/signin" element={<Signin />} />
-              <Route path="/auth/signup" element={<Signup />} />
-              <Route path="/auth/verification" element={<EmailVerification/>} />
-              <Route path="/auth/forget-password" element={<ForgetPassword />} />
-              <Route path="/auth/reset-password" element={<ConfirmPassword />} />
+              <Route path="/auth/signup" element={<Suspense fallback={<div>Loading...</div>}><Signup /></Suspense>} />
+              <Route path="/auth/verification" element={<Suspense fallback={<div>Loading...</div>}><EmailVerification/></Suspense>} />
+              <Route path="/auth/forget-password" element={<Suspense fallback={<div>Loading...</div>}><ForgetPassword /></Suspense>} />
+              <Route path="/auth/reset-password" element={<Suspense fallback={<div>Loading...</div>}><ConfirmPassword /></Suspense>} />
               <Route path="*" element={<NotFound/>} />          
         </Routes>
     </>

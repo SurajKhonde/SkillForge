@@ -16,7 +16,7 @@ export default function ExamUplaod({ visible, onClose }) {
     setBusy(false);
     if (error) return updateNotification("error", error);
 
-    updateNotification("success", "Hr Assign successfully.");
+    updateNotification("success", "Question Assign successfully.");
     onClose();
   };
 

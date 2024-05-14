@@ -5,7 +5,6 @@ import Navbar from "../Components/Newbie/Navbar";
 import NotFound from "../CommonComponents/NotFound";
 import DeveloperUpload from "../Components/Newbie/CreateDeveloper"
 import HiringManger from "../Components/HiringManger/HiringManger";
-import NewbieDashboard from "../Components/Newbie/NewbieDashboard";
 import Cursor from "../Components/Commonpages/DynamicCursor";
 import { NewbieDashboard } from "../Components/Newbie/NewbieDashboard";
 import { getDeveloperProfile } from "../Api/Developer";

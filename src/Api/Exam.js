@@ -5,7 +5,8 @@ export const ExamPaper= async (formdata) => {
     try {
         const { data } = await client.post("exam/setExam", formdata, {
              headers: {
-                    authorization: "Bearer " + token,
+                authorization: "Bearer " + token,
+                 "Content-Type":'application/json'
       },
         });
         return data;
@@ -13,3 +14,19 @@ export const ExamPaper= async (formdata) => {
         return catchError(error)
     }
 };
+
+export const GetExamPaper = async () => {
+    const token = getToken();
+    try {
+        const { data } = await client.get("exam/getPaper", {
+            headers: {
+                authorization: "Bearer " + token,
+                "Content-Type": 'application/json'
+            },
+        });
+        return data;
+    } catch (error) {
+        return catchError(error)
+    }
+};
+

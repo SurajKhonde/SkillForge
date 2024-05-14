@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNotification } from '../../Hooks';
 import { getTask, deleteProject} from '../../Api/Project';
 import ConfirmModal from '../Models/ConfirmModel';
@@ -6,35 +6,37 @@ import NextAndPrevButton from "../Commonpages/NextAndPrevButton"
 import {  BsTrash } from "react-icons/bs";
 let currentPageNo = 0;
 const limit = 4;
-export  function Dashboard(){
-  const [Project, setProject] = useState([]);
+export function Dashboard() {
+  const [projects, setProjects] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
   const [busy, setBusy] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const { updateNotification } = useNotification();
 
-  const FetchProject = async (pageNo) => {
+  const fetchProjects = useCallback(async (pageNo) => {
     const { Task, error } = await getTask(pageNo, limit);
-    if (error) return updateNotification("error", error);
-    if (!Task.length) {
-      currentPageNo = pageNo - 1;
-      return setReachedToEnd(true);
+    if (error) {
+      updateNotification('error', error);
+    } else {
+      setProjects((prevProjects) => [...prevProjects, ...Task]);
+      if (!Task.length) {
+        currentPageNo = pageNo - 1;
+        setReachedToEnd(true);
+      }
     }
-    setProject([...Task]);
-
-  };
+  }, [updateNotification]);
 
   const handleOnNextClick = () => {
     if (reachedToEnd) return;
     currentPageNo += 1;
-    FetchProject(currentPageNo);
+    fetchProjects(currentPageNo);
   };
     const handleOnPrevClick = () => {
     if (currentPageNo <= 0) return;
     if (reachedToEnd) setReachedToEnd(false);
     currentPageNo -= 1;
-      FetchProject(currentPageNo);
+      fetchProjects(currentPageNo);
       
   };
 
@@ -42,27 +44,32 @@ export  function Dashboard(){
     setSelectedProfile(profile);
     setShowConfirmModal(true);
   };
-  const handleOnDeleteConfirm = async () => {
+   const handleOnDeleteConfirm = async () => {
     setBusy(true);
-    const { error, message } = await deleteProject(selectedProfile.id);
+    const { error, message } = await deleteProject(selectedProject.id);
     setBusy(false);
-    if (error) return updateNotification("error", error);
-    updateNotification("success", message);
-    hideConfirmModal();
-    FetchProject(currentPageNo);
+    if (error) {
+      updateNotification('error', error);
+    } else {
+      updateNotification('success', message);
+      setShowConfirmModal(false);
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project.id !== selectedProject.id)
+      );
+    }
   };
 
   const hideConfirmModal = () => setShowConfirmModal(false);
 
   useEffect(() => {
-    FetchProject(currentPageNo);
-  }, []);
+      fetchProjects(currentPageNo);
+  }, [fetchProjects]);
 
   return (
     <>
     <div className="p-5">
       <div className='grid grid-cols-2 gap-5'>
-        {Project.map((task) => (
+        {projects.map((task) => (
           <TaskProfile
             profile={task}
             key={task.id}
@@ -87,11 +94,12 @@ export  function Dashboard(){
         onCancel={hideConfirmModal}
       /> 
 
+
       </>
     ) 
 }
 
-const TaskProfile = ({ profile, onEditClick ,onDeleteClick}) => {
+const TaskProfile = React.memo(({ profile, onEditClick ,onDeleteClick}) => {
   const [showOptions, setShowOptions] = useState(false);
   const acceptedNameLength = 15;
 
@@ -103,11 +111,11 @@ const TaskProfile = ({ profile, onEditClick ,onDeleteClick}) => {
     setShowOptions(false);
   };
 
-  const getName = (name) => {
+  const getName = useCallback((name) => {
     if (name.length <= acceptedNameLength) return name;
 
     return name.substring(0, acceptedNameLength) + "..";
-  };
+  }, []);
 
   const { title, Description, language, poster, type, genres,status, tags } = profile;
 
@@ -175,7 +183,7 @@ const TaskProfile = ({ profile, onEditClick ,onDeleteClick}) => {
       </div>
     </div>
   );
-};
+});
 
 const Options = ({ visible, onDeleteClick, onEditClick }) => {
   if (!visible) return null;

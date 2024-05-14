@@ -1,28 +1,27 @@
-import React, { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import {Dashboard} from "../Components/Admin/DashBoard";
+import { Dashboard } from "../Components/Admin/DashBoard";
 import Header from "../Components/Admin/Header";
 import Navbar from "../Components/Admin/Navbar";
 import NotFound from "../CommonComponents/NotFound";
-import ProjectUpload from "../Components/Admin/ProjectUpload";
-import HiringManger from "../Components/HiringManger/HiringManger";
-import DashBoardofDeveloper from "../Components/Developer/DashBoard";
+const ProjectUpload = lazy(() => import("../Components/Admin/ProjectUpload"));
+const HiringManger = lazy(() => import("../Components/HiringManger/HiringManger"));
+const DashBoardofDeveloper = lazy(() => import("../Components/Developer/DashBoard"));
 import Cursor from "../Components/Commonpages/DynamicCursor";
-import HrUpload from "../Components/Admin/HrUpload";
-import ExamUplaod from "../Components/Admin/ExamUpolad"
+const HrUpload = lazy(() => import("../Components/Admin/HrUpload"));
+const ExamUplaod = lazy(() => import("../Components/Admin/ExamUpolad"));
 
 export default function AdminNavigator() {
-  const [showMovieUploadModal, setShowMovieUploadModal] = useState(false);
+  const [showProjectModal, setShowProjectModal] = useState(false);
   const [showHrUploadModal, setHrUploadModal] = useState(false);
-   const [showExamModal, setExamModal] = useState(false);
-
+  const [showExamModal, setExamModal] = useState(false);
 
   const displayProjectModel = () => {
-    setShowMovieUploadModal(true);
+    setShowProjectModal(true);
   };
 
   const hideProjectModel = () => {
-    setShowMovieUploadModal(false);
+    setShowProjectModal(false);
   };
   const displayHrModel = () => {
     setHrUploadModal(true);
@@ -31,19 +30,19 @@ export default function AdminNavigator() {
   const hideHrModel = () => {
     setHrUploadModal(false);
   };
-  const displayExamModel= () => {
+  const displayExamModel = () => {
     setExamModal(true);
   };
 
-  const hidexamModal = () => {
-     setExamModal(false);
+  const hideExamModel = () => {
+    setExamModal(false);
   };
 
   return (
     <>
-      <Cursor/>
+      <Cursor />
       <div className="flex dark:bg-primary bg-white">
-        <Navbar/>
+        <Navbar />
         <div className="flex-1 max-w-screen-xl">
           <Header
             onAddprojectClick={displayProjectModel}
@@ -51,28 +50,19 @@ export default function AdminNavigator() {
             onAddExam={displayExamModel}
           />
           <Routes>
+
             <Route path="/" element={<Dashboard />} />
-            <Route path="/HiringTeam" element={<HiringManger />} />
-            <Route path="/Developer" element={<DashBoardofDeveloper />} />
-            <Route path="/exam" element={<DashBoardofDeveloper />} />
-            
-            
+            <Route path="/HiringTeam" element={<Suspense fallback={<div>Loading...</div>}><HiringManger/></Suspense>} />
+            <Route path="/Developer" element={<Suspense fallback={<div>Loading...</div>}><DashBoardofDeveloper/></Suspense>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
-       <ProjectUpload
-        visible={showMovieUploadModal}
-        onClose={hideProjectModel}
-      />
-      <HrUpload
-        visible={showHrUploadModal}
-        onClose={ hideHrModel}
-      />
-      <ExamUplaod
-       visible={showExamModal}
-        onClose={hidexamModal}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectUpload visible={showProjectModal} onClose={hideProjectModel} />
+        <HrUpload visible={showHrUploadModal} onClose={hideHrModel} />
+        {<ExamUplaod  visible={showExamModal} onClose={hideExamModel} />}
+      </Suspense>
     </>
   );
 }
